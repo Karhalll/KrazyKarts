@@ -26,9 +26,20 @@ void AGoKart::Tick(float DeltaTime)
 	FVector Force = GetActorForwardVector() * MaxDrivingForce * Throttle;
 	FVector Acceleration = Force / Mass;
 	Velocity += Acceleration * DeltaTime;
+	UpdateLocationFromVelocity(DeltaTime);
+}
+
+void AGoKart::UpdateLocationFromVelocity(float DeltaTime)
+{
 	FVector Translation = Velocity * 100 * DeltaTime; // *100 because to convert m->cm. Unreals default unit.
-	
-	AddActorWorldOffset(Translation);
+
+	FHitResult HitResult;
+	AddActorWorldOffset(Translation, true, &HitResult);
+
+	if (HitResult.IsValidBlockingHit())
+	{
+		Velocity = FVector::ZeroVector;
+	}
 }
 
 // Called to bind functionality to input
