@@ -3,23 +3,16 @@
 
 #include "GoKart.h"
 
-// Sets default values
 AGoKart::AGoKart()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
-// Called when the game starts or when spawned
 void AGoKart::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
-
-
-// Called every frame
 
 void AGoKart::Tick(float DeltaTime)
 {
@@ -27,6 +20,7 @@ void AGoKart::Tick(float DeltaTime)
 
 	FVector Force = GetActorForwardVector() * MaxDrivingForce * Throttle;
 	Force += GetResistance();
+	Force += GetRollingResistance();
 	
 	FVector Acceleration = Force / Mass;
 	Velocity += Acceleration * DeltaTime;
@@ -38,6 +32,14 @@ void AGoKart::Tick(float DeltaTime)
 FVector AGoKart::GetResistance()
 {
 	return -Velocity.GetSafeNormal() * Velocity.SizeSquared() * DragCoefficient;
+}
+
+FVector AGoKart::GetRollingResistance()
+{
+	float AccelerationDueToGravity = -GetWorld()->GetGravityZ() / 100;
+	float NormalForce = Mass * AccelerationDueToGravity;
+	
+	return -Velocity.GetSafeNormal() * RollingResistanceCoefficient * NormalForce;
 }
 
 void AGoKart::ApplyRotation(float DeltaTime)
@@ -63,8 +65,6 @@ void AGoKart::UpdateLocationFromVelocity(float DeltaTime)
 	}
 }
 
-
-
 // Called to bind functionality to input
 void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -72,7 +72,6 @@ void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AGoKart::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGoKart::MoveRight);
-
 }
 
 void AGoKart::MoveForward(float Value)
