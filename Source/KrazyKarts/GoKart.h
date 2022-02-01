@@ -12,18 +12,14 @@ class KRAZYKARTS_API AGoKart : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
 	AGoKart();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
+public:
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
@@ -34,12 +30,19 @@ private:
 	// The force applied to the car when the throttle is fully down [N].
 	UPROPERTY(EditAnywhere)
 	float MaxDrivingForce = 10000;
-	
+
+	// The number of degrees rotated per second at full control throw [deg/s]
+	UPROPERTY(EditAnywhere)
+	float MaxDegreesPerSecond = 90;
+
 	FVector Velocity;
-	
+
 	float Throttle;
-	
+	float SteeringThrow;
+
 	void MoveForward(float Value);
-	
+	void MoveRight(float Value);
+
+	void ApplyRotation(float DeltaTime);
 	void UpdateLocationFromVelocity(float DeltaTime);
 };
