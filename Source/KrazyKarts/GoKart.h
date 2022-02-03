@@ -80,9 +80,13 @@ private:
 	UPROPERTY(ReplicatedUsing=OnRep_ServerState)
 	FGoKartState ServerState;
 
+	TArray<FGoKartMove> UnacknowledgedMoves;
+
 	UFUNCTION()
 	void OnRep_ServerState();
 	
+	FGoKartMove CreateMove(float DeltaTime);
+	void ClearAcknowledgeMoves(FGoKartMove LastMove);
 	void SimulateMove(FGoKartMove Move);
 	
 	FVector GetAirResistance();
