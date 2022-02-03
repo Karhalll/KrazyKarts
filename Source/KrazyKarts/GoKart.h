@@ -29,10 +29,9 @@ struct FGoKartState
 
 	UPROPERTY()
 	FTransform Transform;
-
 	UPROPERTY()
 	FVector Velocity;
-
+	
 	UPROPERTY()
 	FGoKartMove LastMove;
 };
@@ -75,16 +74,16 @@ private:
 	float RollingResistanceCoefficient = 0.015;
 
 	FVector Velocity;
-	
-	UPROPERTY(Replicated)
 	float Throttle;
-	UPROPERTY(Replicated)
 	float SteeringThrow;
+	
 	UPROPERTY(ReplicatedUsing=OnRep_ServerState)
 	FGoKartState ServerState;
 
 	UFUNCTION()
 	void OnRep_ServerState();
+	
+	void SimulateMove(FGoKartMove Move);
 	
 	FVector GetAirResistance();
 	FVector GetRollingResistance();
@@ -95,6 +94,6 @@ private:
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_SendMove(FGoKartMove Move);
 
-	void ApplyRotation(float DeltaTime);
+	void ApplyRotation(float DeltaTime, float SteeringThrow);
 	void UpdateLocationFromVelocity(float DeltaTime);
 };
