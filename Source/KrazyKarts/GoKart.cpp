@@ -23,7 +23,6 @@ void AGoKart::BeginPlay()
 	if (HasAuthority())
 	{
 		NetUpdateFrequency = 1;
-		IsLocallyControlled();
 	}
 }
 

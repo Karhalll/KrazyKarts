@@ -53,4 +53,5 @@ private:
 	void Server_SendMove(FGoKartMove Move);
 
 	void ClearAcknowledgeMoves(FGoKartMove LastMove);
+	void UpdateServerState(const FGoKartMove& Move);
 };

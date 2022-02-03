@@ -36,8 +36,7 @@ protected:
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
-
-	FGoKartMove CreateMove(float DeltaTime);
+	
 	void SimulateMove(const FGoKartMove& Move);
 	
 	FVector GetVelocity() { return Velocity; }
@@ -45,6 +44,8 @@ public:
 	
 	void SetThrottle(float Value) { Throttle = Value; }
 	void SetSteeringThrow(float Value) { SteeringThrow = Value; }
+
+	FGoKartMove GetLastMove() { return LastMove; }
 
 private:
 	// The mass of the car [kg].
@@ -71,9 +72,13 @@ private:
 	float Throttle;
 	float SteeringThrow;
 
+	FGoKartMove LastMove;
+
 	FVector GetAirResistance();
 	FVector GetRollingResistance();
 
 	void ApplyRotation(float DeltaTime, float SteeringThrow);
 	void UpdateLocationFromVelocity(float DeltaTime);
+
+	FGoKartMove CreateMove(float DeltaTime);
 };
