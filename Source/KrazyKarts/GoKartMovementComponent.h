@@ -41,10 +41,10 @@ public:
 	void SimulateMove(const FGoKartMove& Move);
 	
 	FVector GetVelocity() { return Velocity; }
-	void SetVelocity(const FVector Value) { Velocity = Value; }
+	void SetVelocity(FVector Value) { Velocity = Value; }
 	
-	void SetThrottle(const float Value) { Throttle = Value; }
-	void SetSteeringThrow(const float Value) { SteeringThrow = Value; }
+	void SetThrottle(float Value) { Throttle = Value; }
+	void SetSteeringThrow(float Value) { SteeringThrow = Value; }
 
 private:
 	// The mass of the car [kg].
