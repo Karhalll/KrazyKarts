@@ -4,6 +4,7 @@
 #include "GoKart.h"
 
 #include "DrawDebugHelpers.h"
+#include "GameFramework/GameStateBase.h"
 #include "Net/UnrealNetwork.h"
 
 AGoKart::AGoKart()
@@ -81,7 +82,7 @@ FGoKartMove AGoKart::CreateMove(float DeltaTime)
 	Move.DeltaTime = DeltaTime;
 	Move.SteeringThrow = SteeringThrow;
 	Move.Throttle = Throttle;
-	Move.Time = GetWorld()->TimeSeconds;
+	Move.Time = GetWorld()->GetGameState()->GetServerWorldTimeSeconds();
 
 	return Move;
 }
